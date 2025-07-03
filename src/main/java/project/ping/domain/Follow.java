@@ -1,12 +1,15 @@
 package project.ping.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import project.ping.domain.common.BaseEntity;
 
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Follow extends BaseEntity {
 
     @Id

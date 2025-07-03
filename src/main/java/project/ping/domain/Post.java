@@ -1,7 +1,7 @@
 package project.ping.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import project.ping.domain.common.BaseEntity;
 
 import java.util.ArrayList;
@@ -9,6 +9,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 
     @Id
