@@ -17,6 +17,11 @@ public enum ErrorStatus {
     // 가게 관련 응답
     NOT_EXIST_STORE(HttpStatus.BAD_REQUEST, "STORE4001", "존재하지 않는 가게입니다"),
     NOT_EXIST_MENU(HttpStatus.BAD_REQUEST, "STORE4002", "해당 가게에 메뉴가 존재하지 않습니다"),
+
+    // 회원 관련 응답
+    EXIST_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4001", "이미 회원가입한 이메일입니다. 다른 이메일로 가입하세요"),
+    WRONG_EMAIL_VERIFICATOIN(HttpStatus.BAD_REQUEST, "MEMBER4002", "이메일 인증번호가 틀렸습니다. 다시 입력해주세요"),
+    EXPIRE_EMAIL_CODE(HttpStatus.BAD_REQUEST, "MEMBER4003", "이메일 인증번호가 만료되었습니다. 다시 인증번호를 받으세요"),
     ;
 
     private final HttpStatus status;
