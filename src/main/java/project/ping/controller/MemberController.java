@@ -2,8 +2,12 @@ package project.ping.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.ping.apiPayload.ApiResponse;
+import project.ping.dto.JwtDTO;
 import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.MemberResponseDTO;
 import project.ping.service.MemberService;
@@ -18,11 +22,9 @@ public class MemberController {
     @PostMapping("/join")
     @Operation(summary = "일반 회원가입 API")
     public ApiResponse<?> join(@RequestBody MemberRequestDTO.MemberJoinDTO request){
-        MemberResponseDTO.MemberJoinResultDTO result = memberService.joinMember(request);
-        return ApiResponse.onSuccess(result);
+        return ApiResponse.onSuccess(memberService.joinMember(request));
     }
 
-    // 이메일 인증 로직
     @PostMapping("/email")
     @Operation(summary = "이메일 인증번호 전송 API")
     public ApiResponse<?> sendEmail(@RequestParam String email){
@@ -36,4 +38,12 @@ public class MemberController {
         memberService.verifyMail(email, code);
         return ApiResponse.onSuccess(null);
     }
+
+    @PostMapping("/login")
+    @Operation(summary = "일반 로그인 API")
+    public ResponseEntity<ApiResponse<?>> login(@RequestBody MemberRequestDTO.MemberJoinDTO request){
+        HttpHeaders result = memberService.loginMember(request);
+        return ResponseEntity.ok().headers(result).body(ApiResponse.onSuccess(null));
+    }
+
 }
