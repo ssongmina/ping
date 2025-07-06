@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,9 +17,11 @@ import project.ping.apiPayload.exception.GeneralException;
 import project.ping.apiPayload.status.ErrorStatus;
 import project.ping.converter.MemberConverter;
 import project.ping.domain.Member;
+import project.ping.dto.JwtDTO;
 import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.MemberResponseDTO;
 import project.ping.repository.MemberRepository;
+import project.ping.security.jwt.JwtTokenProvider;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
@@ -32,6 +35,7 @@ public class MemberService {
 
     private final JavaMailSender javaMailSender;
     private final MemberRepository memberRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redistemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -149,6 +153,29 @@ public class MemberService {
         if(!code.equals(emailCode)){
             throw new GeneralException(ErrorStatus.WRONG_EMAIL_VERIFICATOIN);
         }
+    }
+
+    // 일반 로그인
+    public HttpHeaders loginMember(MemberRequestDTO.MemberJoinDTO request) {
+        // 해당 이메일 존재 여부 및 비밀번호 확인
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_EMAIL));
+
+        if(!bCryptPasswordEncoder.matches(request.getPassword(), member.getPassword())){
+            throw new GeneralException(ErrorStatus.WRONG_PASSWORD);
+        }
+
+        // 액세스 토큰 및 리프레시 토큰을 응답으로 전송
+        JwtDTO jwtDTO = jwtTokenProvider.createToken(member.getId(), member.getEmail());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","Bearer " + jwtDTO.getAccessToken());
+        headers.add("Refresh-Token", jwtDTO.getRefreshToken());
+
+        // 리프레시 토큰은 redis에 저장해야함
+        ValueOperations<String, Object> ops = redistemplate.opsForValue();
+        ops.set("refresh-token " + member.getEmail(), jwtDTO.getRefreshToken(), 7, TimeUnit.DAYS);
+
+        return headers;
     }
 
 }

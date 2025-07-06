@@ -22,6 +22,12 @@ public enum ErrorStatus {
     EXIST_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4001", "이미 회원가입한 이메일입니다. 다른 이메일로 가입하세요"),
     WRONG_EMAIL_VERIFICATOIN(HttpStatus.BAD_REQUEST, "MEMBER4002", "이메일 인증번호가 틀렸습니다. 다시 입력해주세요"),
     EXPIRE_EMAIL_CODE(HttpStatus.BAD_REQUEST, "MEMBER4003", "이메일 인증번호가 만료되었습니다. 다시 인증번호를 받으세요"),
+    NOT_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER4004", "존재하지 않는 이메일입니다. 다시 입력해주세요"),
+    WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4005", "일치하지 않는 비밀번호입니다. 다시 입력해주세요"),
+    WRONG_TYPE_SIGNATURE(HttpStatus.BAD_REQUEST, "MEMBER4006", "잘못된 JWT 서명입니다."),
+    TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "MEMBER4007", "만료된 JWT 토큰입니다."),
+    WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4008", "지원되지 않는 JWT 토큰입니다."),
+    NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4009", "JWT 토큰이 잘못되었습니다."),
     ;
 
     private final HttpStatus status;
