@@ -168,7 +168,7 @@ public class MemberService {
         // 액세스 토큰 및 리프레시 토큰을 응답으로 전송
         JwtDTO jwtDTO = jwtTokenProvider.createToken(member.getId(), member.getEmail());
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization","Bearer" + jwtDTO.getAccessToken());
+        headers.add("Authorization","Bearer " + jwtDTO.getAccessToken());
         headers.add("Refresh-Token", jwtDTO.getRefreshToken());
 
         // 리프레시 토큰은 redis에 저장해야함
