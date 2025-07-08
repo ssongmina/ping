@@ -1,6 +1,7 @@
 package project.ping.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import project.ping.service.MemberService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Transactional
 public class MemberController {
 
     private final MemberService memberService;
