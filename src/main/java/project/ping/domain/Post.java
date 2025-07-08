@@ -27,4 +27,8 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostImage> postImageList = new ArrayList<>();
 
+    public void modifyPost(String content){
+        this.content = content;
+    }
+
 }

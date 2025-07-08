@@ -3,10 +3,7 @@ package project.ping.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.ping.apiPayload.ApiResponse;
 import project.ping.domain.Post;
 import project.ping.dto.PostRequestDTO;
@@ -27,4 +24,14 @@ public class PostController {
         postService.write(memberDetail.getMember(), request);
         return ApiResponse.onSuccess(null);
     }
+
+    @PatchMapping("/{postId}")
+    @Operation(summary = "게시물을 수정하는 API")
+    public ApiResponse<?> updatePost(@AuthenticationPrincipal MemberDetail memberDetail,
+                                     @PathVariable Long postId,
+                                     @RequestBody PostRequestDTO.postDTO request){
+        postService.update(memberDetail, postId, request);
+        return ApiResponse.onSuccess(null);
+    }
+
 }

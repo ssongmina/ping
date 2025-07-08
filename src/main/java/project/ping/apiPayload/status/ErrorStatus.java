@@ -28,6 +28,10 @@ public enum ErrorStatus {
     TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "MEMBER4007", "만료된 JWT 토큰입니다."),
     WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4008", "지원되지 않는 JWT 토큰입니다."),
     NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4009", "JWT 토큰이 잘못되었습니다."),
+
+    // 게시글 관련 응답
+    NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시글입니다."),
+    NOT_YOUR_POST(HttpStatus.BAD_REQUEST, "POST4002", "본인이 작성한 게시글이 아닙니다. 수정은 본인의 게시글만 가능합니다"),
     ;
 
     private final HttpStatus status;
