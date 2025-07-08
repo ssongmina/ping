@@ -28,9 +28,17 @@ public class PostService {
 
     public void update(MemberDetail memberDetail, Long postId, PostRequestDTO.postDTO request) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
-        if(post.getMember().equals(memberDetail.getMember())){
+        if(post.getMember().getId() != memberDetail.getMember().getId()){
             throw new GeneralException(ErrorStatus.NOT_YOUR_POST);
         }
         post.modifyPost(request.getContent());
+    }
+
+    public void delete(MemberDetail memberDetail, Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
+        if(post.getMember().getId() != memberDetail.getMember().getId()){
+            throw  new GeneralException(ErrorStatus.NOT_YOUR_POST);
+        }
+        postRepository.delete(post);
     }
 }

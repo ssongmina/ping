@@ -34,4 +34,12 @@ public class PostController {
         return ApiResponse.onSuccess(null);
     }
 
+    @DeleteMapping("/{postId}")
+    @Operation(summary = "게시물을 삭제하는 API")
+    public ApiResponse<?> deletePost(@AuthenticationPrincipal MemberDetail memberDetail,
+                                     @PathVariable Long postId){
+        postService.delete(memberDetail, postId);
+        return ApiResponse.onSuccess(null);
+    }
+
 }
