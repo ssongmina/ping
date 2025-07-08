@@ -1,5 +1,6 @@
 package project.ping.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.ping.apiPayload.exception.GeneralException;
@@ -10,9 +11,11 @@ import project.ping.domain.Post;
 import project.ping.dto.PostRequestDTO;
 import project.ping.repository.MemberRepository;
 import project.ping.repository.PostRepository;
+import project.ping.security.auth.MemberDetail;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostService {
 
     private final PostRepository postRepository;
@@ -21,5 +24,13 @@ public class PostService {
     public void write(Member member, PostRequestDTO.postDTO request){
         Post post = PostConverter.toPost(member, request);
         postRepository.save(post);
+    }
+
+    public void update(MemberDetail memberDetail, Long postId, PostRequestDTO.postDTO request) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
+        if(post.getMember().equals(memberDetail.getMember())){
+            throw new GeneralException(ErrorStatus.NOT_YOUR_POST);
+        }
+        post.modifyPost(request.getContent());
     }
 }
