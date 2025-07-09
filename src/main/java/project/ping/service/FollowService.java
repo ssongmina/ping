@@ -1,5 +1,6 @@
 package project.ping.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.ping.apiPayload.exception.GeneralException;
@@ -14,6 +15,7 @@ import project.ping.security.auth.MemberDetail;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FollowService {
 
     private final MemberRepository memberRepository;
@@ -34,4 +36,12 @@ public class FollowService {
         followRepository.save(follow);
     }
 
+    // 언팔로우 API
+    public void unfollowYou(MemberDetail memberDetail, FollowRequestDTO.unfollowDTO request) {
+        Member member = memberRepository.findById(request.getFollowingId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
+        Follow follow = followRepository.findByFollowerAndFollowing(memberDetail.getMember(), member).
+                orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_FOLLOW));
+        followRepository.delete(follow);
+    }
 }
