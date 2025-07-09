@@ -23,21 +23,18 @@ public class FollowService {
 
     // 팔로우 API : 내가 누군가를 따른다 / 팔로워 : 나, 팔로잉 : 다른 이
     public void followYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
-        Member member = memberDetail.getMember();
-        if(request.getFollowerId() != member.getId()){
-            throw new GeneralException(ErrorStatus.NOT_CORRECT);
-        }
+        Member follower = memberDetail.getMember();
         Member following = memberRepository.findById(request.getFollowingId()).
-                orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXSIT_FOLLOWING_MEMBER));
-        if(followRepository.existsByFollowerAndFollowing(member, following)){
+                orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
+        if(followRepository.existsByFollowerAndFollowing(follower, following)){
             throw new GeneralException(ErrorStatus.ALREADY_FOLLOW);
         }
-        Follow follow = FollowConverter.toFollow(member, following);
+        Follow follow = FollowConverter.toFollow(follower, following);
         followRepository.save(follow);
     }
 
     // 언팔로우 API
-    public void unfollowYou(MemberDetail memberDetail, FollowRequestDTO.unfollowDTO request) {
+    public void unfollowYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
         Member member = memberRepository.findById(request.getFollowingId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
         Follow follow = followRepository.findByFollowerAndFollowing(memberDetail.getMember(), member).
