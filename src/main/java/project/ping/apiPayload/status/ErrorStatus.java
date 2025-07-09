@@ -29,9 +29,15 @@ public enum ErrorStatus {
     WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4008", "지원되지 않는 JWT 토큰입니다."),
     NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4009", "JWT 토큰이 잘못되었습니다."),
 
+
     // 게시글 관련 응답
     NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시글입니다."),
     NOT_YOUR_POST(HttpStatus.BAD_REQUEST, "POST4002", "본인이 작성한 게시글이 아닙니다. 수정은 본인의 게시글만 가능합니다"),
+
+    // 팔로우 관련 응답
+    NOT_CORRECT(HttpStatus.BAD_REQUEST, "FOLLOW4001", "현재 회원 정보와 팔로워 당사자가 동일인이 아닙니다"),
+    ALREADY_FOLLOW(HttpStatus.BAD_REQUEST, "FOLLOW4002", "이미 팔로우했습니다."),
+    NOT_EXSIT_FOLLOWING_MEMBER(HttpStatus.BAD_REQUEST, "FOLLOW4003", "팔로우할 회원이 존재하지 않는 회원입니다."),
     ;
 
     private final HttpStatus status;
