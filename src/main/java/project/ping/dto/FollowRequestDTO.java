@@ -9,12 +9,7 @@ public class FollowRequestDTO {
 
     @Getter
     public static class followDTO {
-        private Long followerId;
         private Long followingId;
     }
 
-    @Getter
-    public static class unfollowDTO{
-        private Long followingId;
-    }
 }

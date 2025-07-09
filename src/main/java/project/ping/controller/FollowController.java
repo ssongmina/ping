@@ -29,7 +29,7 @@ public class FollowController {
     @PostMapping("/unfollow")
     @Operation(summary = "언팔로우 API")
     public ApiResponse<?> unfollow(@AuthenticationPrincipal MemberDetail memberDetail,
-                                   @RequestBody FollowRequestDTO.unfollowDTO request){
+                                   @RequestBody FollowRequestDTO.followDTO request){
         followService.unfollowYou(memberDetail, request);
         return ApiResponse.onSuccess(null);
     }
