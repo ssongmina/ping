@@ -25,4 +25,12 @@ public class FollowController {
         followService.followYou(memberDetail, request);
         return ApiResponse.onSuccess(null);
     }
+
+    @PostMapping("/unfollow")
+    @Operation(summary = "언팔로우 API")
+    public ApiResponse<?> unfollow(@AuthenticationPrincipal MemberDetail memberDetail,
+                                   @RequestBody FollowRequestDTO.followDTO request){
+        followService.unfollowYou(memberDetail, request);
+        return ApiResponse.onSuccess(null);
+    }
 }
