@@ -26,4 +26,22 @@ public class FollowResponseDTO {
         private Long followingId;
         private String followingName;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FollowerListDTO{
+        private Long count;
+        private List<FollowerDTO> followerDTOList;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FollowerDTO{
+        private Long followerId;
+        private String followerName;
+    }
 }
