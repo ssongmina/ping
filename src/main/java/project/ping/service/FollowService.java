@@ -29,6 +29,9 @@ public class FollowService {
         Member follower = memberDetail.getMember();
         Member following = memberRepository.findById(request.getFollowingId()).
                 orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
+        if(follower.getId() == following.getId()) {
+            throw new GeneralException(ErrorStatus.NOT_SELF_FOLLOW);
+        }
         if(followRepository.existsByFollowerAndFollowing(follower, following)){
             throw new GeneralException(ErrorStatus.ALREADY_FOLLOW);
         }
@@ -38,9 +41,13 @@ public class FollowService {
 
     // 언팔로우 API
     public void unfollowYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
-        Member member = memberRepository.findById(request.getFollowingId())
+        Member follower = memberDetail.getMember();
+        Member following = memberRepository.findById(request.getFollowingId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
-        Follow follow = followRepository.findByFollowerAndFollowing(memberDetail.getMember(), member).
+        if(follower.getId() == following.getId()) {
+            throw new GeneralException(ErrorStatus.NOT_SELF_UNFOLLOW);
+        }
+        Follow follow = followRepository.findByFollowerAndFollowing(follower, following).
                 orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_FOLLOW));
         followRepository.delete(follow);
     }
