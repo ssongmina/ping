@@ -42,4 +42,11 @@ public class PostController {
         return ApiResponse.onSuccess(null);
     }
 
+    @GetMapping
+    @Operation(summary = "피드를 조회하는 API")
+    public ApiResponse<?> getPosts(@AuthenticationPrincipal MemberDetail memberDetail){
+        return ApiResponse.onSuccess(postService.get(memberDetail));
+    }
+
+
 }
