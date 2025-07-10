@@ -9,9 +9,12 @@ import project.ping.converter.PostConverter;
 import project.ping.domain.Member;
 import project.ping.domain.Post;
 import project.ping.dto.PostRequestDTO;
+import project.ping.dto.PostResponseDTO;
 import project.ping.repository.MemberRepository;
 import project.ping.repository.PostRepository;
 import project.ping.security.auth.MemberDetail;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,4 +44,12 @@ public class PostService {
         }
         postRepository.delete(post);
     }
+
+    public PostResponseDTO.getPostListDTO get(MemberDetail memberDetail) {
+        Member member = memberDetail.getMember();
+        List<Post> posts = postRepository.findLatestPostsOfFollowings(member);
+        return PostConverter.toPostList(posts);
+    }
+
+
 }
