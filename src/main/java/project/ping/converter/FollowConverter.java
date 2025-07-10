@@ -16,7 +16,7 @@ public class FollowConverter {
                 .build();
     }
 
-    public static FollowResponseDTO.FollowingListDTO toFollowList(List<Follow> follows) {
+    public static FollowResponseDTO.FollowingListDTO toFollowingList(List<Follow> follows) {
         List<FollowResponseDTO.FollowingDTO> lists = follows.stream()
                 .map(FollowConverter::toFollowingDTO).collect(Collectors.toList());
         return FollowResponseDTO.FollowingListDTO.builder()
@@ -30,6 +30,23 @@ public class FollowConverter {
         return FollowResponseDTO.FollowingDTO.builder()
                 .followingId(member.getId())
                 .followingName(member.getNickname())
+                .build();
+    }
+
+    public static FollowResponseDTO.FollowerListDTO toFollowerList(List<Follow> follows) {
+        List<FollowResponseDTO.FollowerDTO> lists = follows.stream()
+                .map(FollowConverter::toFollowerDTO).collect(Collectors.toList());
+        return FollowResponseDTO.FollowerListDTO.builder()
+                .count(lists.stream().count())
+                .followerDTOList(lists)
+                .build();
+    }
+
+    public static FollowResponseDTO.FollowerDTO toFollowerDTO(Follow follow){
+        Member member = follow.getFollower();
+        return FollowResponseDTO.FollowerDTO.builder()
+                .followerId(member.getId())
+                .followerName(member.getNickname())
                 .build();
     }
 }
