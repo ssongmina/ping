@@ -9,9 +9,12 @@ import project.ping.converter.FollowConverter;
 import project.ping.domain.Follow;
 import project.ping.domain.Member;
 import project.ping.dto.FollowRequestDTO;
+import project.ping.dto.FollowResponseDTO;
 import project.ping.repository.FollowRepository;
 import project.ping.repository.MemberRepository;
 import project.ping.security.auth.MemberDetail;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +43,13 @@ public class FollowService {
         Follow follow = followRepository.findByFollowerAndFollowing(memberDetail.getMember(), member).
                 orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_FOLLOW));
         followRepository.delete(follow);
+    }
+
+    // 팔로잉을 조회하는 API
+    public FollowResponseDTO.FollowingListDTO getFollowings(MemberDetail memberDetail) {
+        Member follower = memberDetail.getMember();
+        List<Follow> follows = followRepository.findByFollower(follower);
+        // 회원의 아이디, 이름 정보를 가져오기
+        return FollowConverter.toFollowList(follows);
     }
 }
