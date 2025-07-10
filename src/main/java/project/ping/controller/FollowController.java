@@ -36,4 +36,10 @@ public class FollowController {
     public ApiResponse<?> getFollowingList(@AuthenticationPrincipal MemberDetail memberDetail){
         return ApiResponse.onSuccess(followService.getFollowings(memberDetail));
     }
+
+    @GetMapping("/follower/list")
+    @Operation(summary = "팔로워를 조회하는 API")
+    public ApiResponse<?> getFollowerList(@AuthenticationPrincipal MemberDetail memberDetail){
+        return ApiResponse.onSuccess(followService.getFollowers(memberDetail));
+    }
 }
