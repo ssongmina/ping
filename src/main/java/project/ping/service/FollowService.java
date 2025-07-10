@@ -50,6 +50,13 @@ public class FollowService {
         Member follower = memberDetail.getMember();
         List<Follow> follows = followRepository.findByFollower(follower);
         // 회원의 아이디, 이름 정보를 가져오기
-        return FollowConverter.toFollowList(follows);
+        return FollowConverter.toFollowingList(follows);
+    }
+
+    // 팔로워를 조회하는 API
+    public FollowResponseDTO.FollowerListDTO getFollowers(MemberDetail memberDetail) {
+        Member member = memberDetail.getMember();
+        List<Follow> follows = followRepository.findByFollowing(member);
+        return FollowConverter.toFollowerList(follows);
     }
 }
