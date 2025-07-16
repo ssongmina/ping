@@ -24,8 +24,14 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post")
     private List<PostImage> postImageList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<Comments> commentsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<Likes> likesList = new ArrayList<>();
 
     public void modifyPost(String content){
         this.content = content;
