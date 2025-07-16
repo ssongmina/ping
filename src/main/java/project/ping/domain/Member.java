@@ -30,16 +30,22 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     private List<Post> postList = new ArrayList<>();
 
     // 내가 누구를 팔로우하는 중인지
-    @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "follower")
     private List<Follow> followingList = new ArrayList<>();
 
     // 누가 나를 팔로우하는 중인지
-    @OneToMany(mappedBy = "following", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "following")
     private List<Follow> followerList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Likes> likesList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comments> commentsList = new ArrayList<>();
 
     // 비밀번호 암호화
     public void encodePassword(String password) {
