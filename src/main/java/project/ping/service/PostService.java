@@ -8,6 +8,7 @@ import project.ping.apiPayload.status.ErrorStatus;
 import project.ping.converter.PostConverter;
 import project.ping.domain.Member;
 import project.ping.domain.Post;
+import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.PostRequestDTO;
 import project.ping.dto.PostResponseDTO;
 import project.ping.repository.MemberRepository;
@@ -52,4 +53,10 @@ public class PostService {
     }
 
 
+    public PostResponseDTO.getPostListDTO getMemberPosts(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
+        List<Post> posts = postRepository.findByMember(member);
+        return PostConverter.toPostList(posts);
+    }
 }

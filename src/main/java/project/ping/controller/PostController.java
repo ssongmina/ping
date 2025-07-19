@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import project.ping.apiPayload.ApiResponse;
 import project.ping.domain.Post;
+import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.PostRequestDTO;
 import project.ping.security.auth.MemberDetail;
 import project.ping.service.PostService;
@@ -48,5 +49,11 @@ public class PostController {
         return ApiResponse.onSuccess(postService.get(memberDetail));
     }
 
+    @GetMapping("/member")
+    @Operation(summary = "특정 회원이 작성한 게시글을 조회하는 API")
+    public ApiResponse<?> getPostsMember(@RequestParam Long memberId){
+        System.out.println("hi hello = ");
+        return ApiResponse.onSuccess(postService.getMemberPosts(memberId));
+    }
 
 }
