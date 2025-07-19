@@ -49,10 +49,9 @@ public class PostController {
         return ApiResponse.onSuccess(postService.get(memberDetail));
     }
 
-    @GetMapping("/member")
+    @GetMapping("/{memberId}")
     @Operation(summary = "특정 회원이 작성한 게시글을 조회하는 API")
-    public ApiResponse<?> getPostsMember(@RequestParam Long memberId){
-        System.out.println("hi hello = ");
+    public ApiResponse<?> getPostsMember(@PathVariable Long memberId){
         return ApiResponse.onSuccess(postService.getMemberPosts(memberId));
     }
 
