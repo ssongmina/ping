@@ -23,4 +23,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     """)
     List<Post> findLatestPostsOfFollowings(@Param("member") Member member);
 
+    List<Post> findByMember(Member member);
+
 }
