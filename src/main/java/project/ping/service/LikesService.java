@@ -43,7 +43,7 @@ public class LikesService {
     public LikesResponseDTO.countLikesDTO count(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new GeneralException(ErrorStatus.NOT_EXIST_POST));
-        Long count = likesRepository.countLikes(post);
+        Long count =  likesRepository.countLikesByPost(post);
         return LikesConverter.toCountLikes(count);
     }
 }
