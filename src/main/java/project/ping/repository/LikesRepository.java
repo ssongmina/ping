@@ -11,10 +11,5 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     Likes findByMemberAndPost(Member member, Post post);
 
-    // 해당 POST에 알맞는 LIkes 엔티티의 개수 세기
-    @Query("""
-        SELECT count(*) FROM Likes l WHERE l.post = :post
-        """
-    )
-    Long countLikes(@Param("post") Post post);
+    Long countLikesByPost(Post post);
 }
