@@ -10,6 +10,7 @@ import project.ping.converter.LikesConverter;
 import project.ping.domain.Likes;
 import project.ping.domain.Member;
 import project.ping.domain.Post;
+import project.ping.dto.LikesResponseDTO;
 import project.ping.repository.LikesRepository;
 import project.ping.repository.PostRepository;
 import project.ping.security.auth.MemberDetail;
@@ -38,4 +39,11 @@ public class LikesService {
         }
     }
 
+    // 좋아요 수 세기
+    public LikesResponseDTO.countLikesDTO count(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new GeneralException(ErrorStatus.NOT_EXIST_POST));
+        Long count =  likesRepository.countLikesByPost(post);
+        return LikesConverter.toCountLikes(count);
+    }
 }

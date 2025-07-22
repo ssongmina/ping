@@ -21,4 +21,10 @@ public class LikesController {
         likesService.push(memberDetail, postId);
         return ApiResponse.onSuccess(null);
     }
+
+    @GetMapping
+    @Operation(summary = "좋아요 개수 세기 API")
+    public ApiResponse<?> getLikes(@RequestParam Long postId){
+        return ApiResponse.onSuccess(likesService.count(postId));
+    }
 }
