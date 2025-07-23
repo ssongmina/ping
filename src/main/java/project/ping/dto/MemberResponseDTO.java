@@ -18,4 +18,15 @@ public class MemberResponseDTO {
         private String nickname;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyPageDTO{
+        private String nickname;
+        private Long followers;
+        private Long followings;
+        private Long posts;
+    }
 }
