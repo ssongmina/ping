@@ -26,5 +26,15 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResponseDTO.MyPageDTO toMyPage(Member member, Long followings, Long followers, Long post) {
+        return MemberResponseDTO.MyPageDTO.builder()
+                .nickname(member.getNickname())
+                .followings(followings)
+                .followers(followers)
+                .posts(post)
+                .build();
+    }
+
+
 
 }
