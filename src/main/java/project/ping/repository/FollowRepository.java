@@ -1,6 +1,8 @@
 package project.ping.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import project.ping.domain.Follow;
 import project.ping.domain.Member;
 
@@ -15,4 +17,8 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Follow> findByFollower(Member follower);
 
     List<Follow> findByFollowing(Member following);
+
+    Long countByFollower(@Param("member") Member member);
+
+    Long countByFollowing(@Param("member") Member member);
 }
