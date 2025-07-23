@@ -20,7 +20,10 @@ import project.ping.domain.Member;
 import project.ping.dto.JwtDTO;
 import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.MemberResponseDTO;
+import project.ping.repository.FollowRepository;
 import project.ping.repository.MemberRepository;
+import project.ping.repository.PostRepository;
+import project.ping.security.auth.MemberDetail;
 import project.ping.security.jwt.JwtTokenProvider;
 
 import java.io.UnsupportedEncodingException;
@@ -38,6 +41,8 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redistemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final FollowRepository followRepository;
+    private final PostRepository postRepository;
 
     String[] adjectives = {
             "귀여운", "상큼한", "시끄러운", "엉뚱한", "달콤한",
@@ -178,4 +183,11 @@ public class MemberService {
         return headers;
     }
 
+    public MemberResponseDTO.MyPageDTO getMyPage(MemberDetail memberDetail) {
+        Member member = memberDetail.getMember();
+        Long followers = followRepository.countByFollowing(member);
+        Long followings = followRepository.countByFollower(member);
+        Long post = postRepository.countByMember(member);
+        return MemberConverter.toMyPage(member, followings, followers, post);
+    }
 }

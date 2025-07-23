@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import project.ping.apiPayload.ApiResponse;
 import project.ping.dto.JwtDTO;
 import project.ping.dto.MemberRequestDTO;
 import project.ping.dto.MemberResponseDTO;
+import project.ping.security.auth.MemberDetail;
 import project.ping.service.MemberService;
 
 @RestController
@@ -46,6 +48,12 @@ public class MemberController {
     public ResponseEntity<ApiResponse<?>> login(@RequestBody MemberRequestDTO.MemberJoinDTO request){
         HttpHeaders result = memberService.loginMember(request);
         return ResponseEntity.ok().headers(result).body(ApiResponse.onSuccess(null));
+    }
+
+    @GetMapping("/myPage")
+    @Operation(summary = "마이페이지 조회 API")
+    public ApiResponse<?> myPage(@AuthenticationPrincipal MemberDetail memberDetail){
+        return ApiResponse.onSuccess(memberService.getMyPage(memberDetail));
     }
 
 }
