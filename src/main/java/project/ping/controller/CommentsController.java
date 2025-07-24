@@ -30,4 +30,11 @@ public class CommentsController {
                                  @RequestBody CommentsRequestDTO.UpdateCommentsDTO request){
         return ApiResponse.onSuccess(commentsService.updateComments(memberDetail, request));
     }
+
+    @DeleteMapping
+    @Operation(summary = "댓글 삭제하기 API")
+    public ApiResponse<?> delete(@AuthenticationPrincipal MemberDetail memberDetail, @RequestParam Long commentsId){
+        commentsService.deleteComments(memberDetail, commentsId);
+        return ApiResponse.onSuccess(null);
+    }
 }
