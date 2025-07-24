@@ -42,6 +42,7 @@ public enum ErrorStatus {
 
     // 댓글 관련 응답
     NOT_EXIST_COMMENTS(HttpStatus.BAD_REQUEST, "COMMENTS4001", "존재하는 댓글이 아닙니다."),
+    NOT_MATCH_COMMENT_MEMBER(HttpStatus.BAD_REQUEST, "COMMENTS4002", "본인이 작성한 댓글이 아니라 수정할 수 없습니다."),
     ;
 
     private final HttpStatus status;

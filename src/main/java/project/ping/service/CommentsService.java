@@ -35,6 +35,9 @@ public class CommentsService {
     public CommentsResponseDTO.CommentsDTO updateComments(MemberDetail memberDetail, CommentsRequestDTO.UpdateCommentsDTO request) {
         Comments comments = commentsRepository.findById(request.getCommentId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_COMMENTS));
+        if(comments.getMember().getId() != memberDetail.getMember().getId()){
+            throw new GeneralException(ErrorStatus.NOT_MATCH_COMMENT_MEMBER);
+        }
         comments.updateContent(request.getContent());
         return CommentsConverter.completeComments(comments);
     }
