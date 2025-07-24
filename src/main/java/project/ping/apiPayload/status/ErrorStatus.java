@@ -39,6 +39,9 @@ public enum ErrorStatus {
     NOT_EXIST_FOLLOW(HttpStatus.BAD_REQUEST, "FOLLOW4002", "팔로우 한 적이 없습니다."),
     NOT_SELF_FOLLOW(HttpStatus.BAD_REQUEST, "FOLLOW4003", "본인을 팔로우 할 수 없습니다"),
     NOT_SELF_UNFOLLOW(HttpStatus.BAD_REQUEST, "FOLLOW4004", "본인을 언팔로우 할 수 없습니다"),
+
+    // 댓글 관련 응답
+    NOT_EXIST_COMMENTS(HttpStatus.BAD_REQUEST, "COMMENTS4001", "존재하는 댓글이 아닙니다."),
     ;
 
     private final HttpStatus status;
