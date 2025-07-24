@@ -3,10 +3,7 @@ package project.ping.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.ping.apiPayload.ApiResponse;
 import project.ping.dto.CommentsRequestDTO;
 import project.ping.security.auth.MemberDetail;
@@ -27,4 +24,10 @@ public class CommentsController {
         return ApiResponse.onSuccess(null);
     }
 
+    @PatchMapping
+    @Operation(summary = "댓글 수정하기 API")
+    public ApiResponse<?> update(@AuthenticationPrincipal MemberDetail memberDetail,
+                                 @RequestBody CommentsRequestDTO.UpdateCommentsDTO request){
+        return ApiResponse.onSuccess(commentsService.updateComments(memberDetail, request));
+    }
 }
