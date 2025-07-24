@@ -36,4 +36,8 @@ public class Comments extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comments> children = new ArrayList<>();
 
+    public void updateContent(String content){
+        this.content = content;
+    }
+
 }
