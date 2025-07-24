@@ -1,5 +1,6 @@
 package project.ping.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.ping.apiPayload.exception.GeneralException;
@@ -9,12 +10,14 @@ import project.ping.domain.Comments;
 import project.ping.domain.Member;
 import project.ping.domain.Post;
 import project.ping.dto.CommentsRequestDTO;
+import project.ping.dto.CommentsResponseDTO;
 import project.ping.repository.CommentsRepository;
 import project.ping.repository.PostRepository;
 import project.ping.security.auth.MemberDetail;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentsService {
 
     private final PostRepository postRepository;
@@ -27,6 +30,12 @@ public class CommentsService {
         Comments comments = commentsRepository.findById(request.getCommentId()).orElse(null);
         Comments newComments = CommentsConverter.toComments(member, post, comments, request);
         commentsRepository.save(newComments);
+    }
 
+    public CommentsResponseDTO.CommentsDTO updateComments(MemberDetail memberDetail, CommentsRequestDTO.UpdateCommentsDTO request) {
+        Comments comments = commentsRepository.findById(request.getCommentId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_COMMENTS));
+        comments.updateContent(request.getContent());
+        return CommentsConverter.completeComments(comments);
     }
 }
