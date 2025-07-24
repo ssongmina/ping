@@ -11,5 +11,10 @@ public class CommentsRequestDTO {
         private String context;
     }
 
+    @Getter
+    public static class UpdateCommentsDTO{
+        private Long commentId;
+        private String content;
+    }
 
 }
