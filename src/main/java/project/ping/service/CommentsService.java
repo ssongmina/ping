@@ -15,6 +15,8 @@ import project.ping.repository.CommentsRepository;
 import project.ping.repository.PostRepository;
 import project.ping.security.auth.MemberDetail;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -49,5 +51,11 @@ public class CommentsService {
             throw new GeneralException(ErrorStatus.NOT_MATCH_COMMENT_MEMBER);
         }
         comments.updateContent("삭제된 댓글입니다.");
+    }
+
+    public List<CommentsResponseDTO.CommentsListDTO> getComments(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
+        List<Comments> commentsList = commentsRepository.findByPost(post); // 댓글, 대댓글 모두 가져오기
+        return CommentsConverter.toCommentsList(commentsList);
     }
 }

@@ -37,4 +37,11 @@ public class CommentsController {
         commentsService.deleteComments(memberDetail, commentsId);
         return ApiResponse.onSuccess(null);
     }
+
+    @GetMapping
+    @Operation(summary = "댓글 조회하기 API")
+    public ApiResponse<?> get(@RequestParam Long postId){
+        return ApiResponse.onSuccess(commentsService.getComments(postId));
+    }
+
 }
