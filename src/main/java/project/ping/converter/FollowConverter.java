@@ -4,6 +4,7 @@ import project.ping.domain.Follow;
 import project.ping.domain.Member;
 import project.ping.dto.FollowResponseDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,4 +50,13 @@ public class FollowConverter {
                 .followerName(member.getNickname())
                 .build();
     }
+
+    public static FollowResponseDTO.followResultDTO toFollowResult(Member follower, Member following){
+        return FollowResponseDTO.followResultDTO.builder()
+                .followerId(follower.getId())
+                .followingId(following.getId())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
 }
