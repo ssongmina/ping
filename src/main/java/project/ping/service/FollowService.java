@@ -25,7 +25,7 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     // 팔로우 API : 내가 누군가를 따른다 / 팔로워 : 나, 팔로잉 : 다른 이
-    public void followYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
+    public FollowResponseDTO.followResultDTO followYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
         Member follower = memberDetail.getMember();
         Member following = memberRepository.findById(request.getFollowingId()).
                 orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
@@ -37,10 +37,12 @@ public class FollowService {
         }
         Follow follow = FollowConverter.toFollow(follower, following);
         followRepository.save(follow);
+
+        return FollowConverter.toFollowResult(follower, following);
     }
 
     // 언팔로우 API
-    public void unfollowYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
+    public FollowResponseDTO.followResultDTO unfollowYou(MemberDetail memberDetail, FollowRequestDTO.followDTO request) {
         Member follower = memberDetail.getMember();
         Member following = memberRepository.findById(request.getFollowingId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER));
@@ -50,6 +52,8 @@ public class FollowService {
         Follow follow = followRepository.findByFollowerAndFollowing(follower, following).
                 orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_FOLLOW));
         followRepository.delete(follow);
+
+        return FollowConverter.toFollowResult(follower, following);
     }
 
     // 팔로잉을 조회하는 API

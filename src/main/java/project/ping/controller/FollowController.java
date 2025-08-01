@@ -16,19 +16,17 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/follow")
-    @Operation(summary = "팔로우 API")
+    @Operation(summary = "팔로우 API(나 -> 다른 회원)")
     public ApiResponse<?> follow(@AuthenticationPrincipal MemberDetail memberDetail,
                                  @RequestBody FollowRequestDTO.followDTO request){
-        followService.followYou(memberDetail, request);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(followService.followYou(memberDetail, request));
     }
 
     @PostMapping("/unfollow")
-    @Operation(summary = "언팔로우 API")
+    @Operation(summary = "언팔로우 API(나 -> 다른 회원)")
     public ApiResponse<?> unfollow(@AuthenticationPrincipal MemberDetail memberDetail,
                                    @RequestBody FollowRequestDTO.followDTO request){
-        followService.unfollowYou(memberDetail, request);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(followService.unfollowYou(memberDetail, request));
     }
 
     @GetMapping("/following/list")
