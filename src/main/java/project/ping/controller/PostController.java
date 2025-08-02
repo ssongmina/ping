@@ -22,8 +22,7 @@ public class PostController {
     @Operation(summary = "게시물을 작성하는 API")
     public ApiResponse<?> writePost(@AuthenticationPrincipal MemberDetail memberDetail,
                                     @RequestBody PostRequestDTO.postDTO request){
-        postService.write(memberDetail.getMember(), request);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(postService.write(memberDetail.getMember(), request));
     }
 
     @PatchMapping("/{postId}")
@@ -31,16 +30,14 @@ public class PostController {
     public ApiResponse<?> updatePost(@AuthenticationPrincipal MemberDetail memberDetail,
                                      @PathVariable Long postId,
                                      @RequestBody PostRequestDTO.postDTO request){
-        postService.update(memberDetail, postId, request);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(postService.update(memberDetail, postId, request));
     }
 
     @DeleteMapping("/{postId}")
     @Operation(summary = "게시물을 삭제하는 API")
     public ApiResponse<?> deletePost(@AuthenticationPrincipal MemberDetail memberDetail,
                                      @PathVariable Long postId){
-        postService.delete(memberDetail, postId);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(postService.delete(memberDetail, postId));
     }
 
     @GetMapping
