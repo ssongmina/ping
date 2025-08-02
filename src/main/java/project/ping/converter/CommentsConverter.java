@@ -6,6 +6,7 @@ import project.ping.domain.Post;
 import project.ping.dto.CommentsRequestDTO;
 import project.ping.dto.CommentsResponseDTO;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,5 +67,13 @@ public class CommentsConverter {
                 c.getReplies().sort(Comparator.comparing(CommentsResponseDTO.CommentsDTO::getCreatedAt))
         );
         return topLevelComments;
+    }
+
+    public static CommentsResponseDTO.CommentsResultDTO toCommentsResult(Comments newComments, Post post) {
+        return CommentsResponseDTO.CommentsResultDTO.builder()
+                .commentsId(newComments.getId())
+                .postId(post.getId())
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 }

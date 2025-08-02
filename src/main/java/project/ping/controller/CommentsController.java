@@ -20,8 +20,7 @@ public class CommentsController {
     @Operation(summary = "댓글 작성하기 API")
     public ApiResponse<?> write(@AuthenticationPrincipal MemberDetail memberDetail,
                                 @RequestBody CommentsRequestDTO.WriteCommentsDTO request){
-        commentsService.writeComments(memberDetail, request);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(commentsService.writeComments(memberDetail, request));
     }
 
     @PatchMapping
@@ -34,8 +33,7 @@ public class CommentsController {
     @DeleteMapping
     @Operation(summary = "댓글 삭제하기 API")
     public ApiResponse<?> delete(@AuthenticationPrincipal MemberDetail memberDetail, @RequestParam Long commentsId){
-        commentsService.deleteComments(memberDetail, commentsId);
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(commentsService.deleteComments(memberDetail, commentsId));
     }
 
     @GetMapping
