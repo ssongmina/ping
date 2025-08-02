@@ -5,6 +5,7 @@ import project.ping.domain.Post;
 import project.ping.dto.PostRequestDTO;
 import project.ping.dto.PostResponseDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,5 +33,10 @@ public class PostConverter {
                 .build();
     }
 
-
+    public static PostResponseDTO.postDTO toPostResult(Post post) {
+        return PostResponseDTO.postDTO.builder()
+                .id(post.getId())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 }

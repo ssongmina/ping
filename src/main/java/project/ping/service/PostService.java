@@ -25,25 +25,30 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-    public void write(Member member, PostRequestDTO.postDTO request){
+    public PostResponseDTO.postDTO  write(Member member, PostRequestDTO.postDTO request){
         Post post = PostConverter.toPost(member, request);
         postRepository.save(post);
+
+        //PostResponseDTO.postDTO result = PostConverter.toPostResult(post);
+        return PostConverter.toPostResult(post);
     }
 
-    public void update(MemberDetail memberDetail, Long postId, PostRequestDTO.postDTO request) {
+    public PostResponseDTO.postDTO update(MemberDetail memberDetail, Long postId, PostRequestDTO.postDTO request) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
         if(post.getMember().getId() != memberDetail.getMember().getId()){
             throw new GeneralException(ErrorStatus.NOT_YOUR_POST);
         }
         post.modifyPost(request.getContent());
+        return PostConverter.toPostResult(post);
     }
 
-    public void delete(MemberDetail memberDetail, Long postId) {
+    public PostResponseDTO.postDTO delete(MemberDetail memberDetail, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_POST));
         if(post.getMember().getId() != memberDetail.getMember().getId()){
             throw  new GeneralException(ErrorStatus.NOT_YOUR_POST);
         }
         postRepository.delete(post);
+        return PostConverter.toPostResult(post);
     }
 
     public PostResponseDTO.getPostListDTO get(MemberDetail memberDetail) {
