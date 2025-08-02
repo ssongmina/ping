@@ -33,4 +33,14 @@ public class CommentsResponseDTO {
         List<CommentsDTO> replies;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CommentsResultDTO{
+        private Long commentsId;
+        private Long postId;
+        private LocalDateTime createdAt;
+    }
+
 }
