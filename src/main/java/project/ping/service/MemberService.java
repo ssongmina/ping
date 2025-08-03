@@ -183,6 +183,29 @@ public class MemberService {
         return headers;
     }
 
+    // 리프레시 토큰으로 액세스 토큰 재발급
+    public HttpHeaders reissueToken(String refreshToken) {
+        // 리프레시 토큰 유효성 검증
+        String email = jwtTokenProvider.getEmail(refreshToken);
+        Long memberId = memberRepository.findByEmail(email).orElseThrow(() -> new GeneralException(ErrorStatus.NOT_EXIST_MEMBER)).getId();
+        ValueOperations<String, Object> ops = redistemplate.opsForValue();
+        String token = (String) ops.get("refresh-token " + email);
+        if(token == null){
+            throw new GeneralException(ErrorStatus.RE_LOGIN);
+        }
+        if(!token.equals(refreshToken)){
+            throw new GeneralException(ErrorStatus.WRONG_REFRESH_TOKEN);
+        }
+        jwtTokenProvider.validateToken(refreshToken);
+
+        // 액세스 토큰 재발급
+        String accessToken = jwtTokenProvider.createAccessToken(memberId, email);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","Bearer " + accessToken);
+
+        return headers;
+    }
+
     public MemberResponseDTO.MyPageDTO getMyPage(MemberDetail memberDetail) {
         Member member = memberDetail.getMember();
         Long followers = followRepository.countByFollowing(member);
@@ -190,4 +213,6 @@ public class MemberService {
         Long post = postRepository.countByMember(member);
         return MemberConverter.toMyPage(member, followings, followers, post);
     }
+
+
 }
