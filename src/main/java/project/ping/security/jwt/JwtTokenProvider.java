@@ -18,6 +18,7 @@ import project.ping.security.auth.MemberDetailService;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -46,9 +47,19 @@ public class JwtTokenProvider implements InitializingBean {
 
     // 로그인 시, 액세스 토큰과 리프레시 토큰을 발급
     public JwtDTO createToken(Long memberId, String email){
-        Date now = new Date();
 
-        String accessToken = Jwts.builder()
+        String accessToken = createAccessToken(memberId, email);
+        String refreshToken = createRefreshToken(memberId, email);
+
+;       return JwtDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public String createAccessToken(Long memberId, String email){
+        Date now = new Date();
+        return Jwts.builder()
                 .claim("memberId", memberId)
                 .claim("email", email)
                 .claim("token-type", "access-token")
@@ -56,8 +67,11 @@ public class JwtTokenProvider implements InitializingBean {
                 .setExpiration(new Date(now.getTime() + accessTokenExpiration))
                 .signWith(secretKey)
                 .compact();
+    }
 
-        String refreshToken = Jwts.builder()
+    public String createRefreshToken(Long memberId, String email){
+        Date now = new Date();
+        return Jwts.builder()
                 .claim("memberId", memberId)
                 .claim("email", email)
                 .claim("token-type", "refresh-token")
@@ -65,12 +79,6 @@ public class JwtTokenProvider implements InitializingBean {
                 .setExpiration(new Date(now.getTime() + refreshTokenExpiration))
                 .signWith(secretKey)
                 .compact();
-
-
-;       return JwtDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
     }
 
     // 요청 헤더에서 토큰 뽑아내기

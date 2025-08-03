@@ -56,4 +56,11 @@ public class MemberController {
         return ApiResponse.onSuccess(memberService.getMyPage(memberDetail));
     }
 
+    @PostMapping("/reissue")
+    @Operation(summary = "리프레시 토큰으로 액세스 토큰 재발급 API")
+    public ResponseEntity<ApiResponse<?>> reissue(@RequestHeader String refreshToken){
+        HttpHeaders result = memberService.reissueToken(refreshToken);
+        return ResponseEntity.ok().headers(result).body(ApiResponse.onSuccess(null));
+    }
+
 }

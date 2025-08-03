@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .formLogin((login) -> login.disable())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeRequests((auth) -> auth
-                        .requestMatchers("member/join", "member/email", "member/email/verify", "member/login").permitAll()
+                        .requestMatchers("member/join", "member/email", "member/email/verify", "member/login", "member/reissue").permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 );
