@@ -29,6 +29,8 @@ public enum ErrorStatus {
     WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4008", "지원되지 않는 JWT 토큰입니다."),
     NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4009", "JWT 토큰이 잘못되었습니다."),
     NOT_EXIST_MEMBER(HttpStatus.BAD_REQUEST, "MEMBER4010", "존재하지 않는 회원입니다."),
+    RE_LOGIN(HttpStatus.BAD_REQUEST, "MEMBER4011", "리프레시 토큰이 만료되었습니다. 다시 로그인해주세요"),
+    WRONG_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "MEMBER4012", "일치하지 않는 리프레시 토큰입니다"),
 
     // 게시글 관련 응답
     NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시글입니다."),
